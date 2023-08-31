@@ -24,7 +24,8 @@ gallery.append(...listArray);
 
 gallery.addEventListener("click", (event) => {
   event.preventDefault();
-
+  // console.log(event.target);
+  // console.log(event);
   if (!event.target.dataset.source) {
     return;
   }
@@ -33,16 +34,19 @@ gallery.addEventListener("click", (event) => {
     <img src="${event.target.dataset.source}" width="800" height="600">
 `,
     {
-      onShow: (instance) => {
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") {
-            instance.close();
-          }
-        });
+      onShow: () => {
+        document.addEventListener("keydown", handler);
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", handler);
       },
     }
   );
-
+  const handler = (e) => {
+    if (e.key === "Escape") {
+      instance.close();
+    }
+  };
   instance.show();
 });
 
